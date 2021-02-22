@@ -1,5 +1,6 @@
 import React from 'react';
 import Pokemon from './Pokemon';
+import Button from './Button';
 import './Pokedex.css';
 
 class Pokedex extends React.Component {
@@ -41,6 +42,7 @@ class Pokedex extends React.Component {
   }
 
   render() {
+    const { pokemons } = this.props;
     const { pokemonIndex, typeFilter } = this.state;
     return (
       <div>
@@ -48,10 +50,14 @@ class Pokedex extends React.Component {
           <Pokemon pokemon={this.filterPokemons(typeFilter)[pokemonIndex]} />
         </div>
         <button onClick={this.pokemonType}>All</button>
-        <button onClick={this.pokemonType}>Fire</button>
-        <button onClick={this.pokemonType}>Psychic</button>
+        <Button pokemonType={this.pokemonType} pokemons={pokemons} />
         <div>
-          <button onClick={this.nextPokemon}>Próximo Pokemon</button>
+          <button
+            onClick={this.nextPokemon}
+            disabled={this.filterPokemons(typeFilter).length === 1}
+          >
+            Próximo Pokemon
+          </button>
         </div>
       </div>
     );

@@ -6,9 +6,13 @@ class Button extends React.Component {
 
     return (
       <div>
-        {pokemons.map(pokemon => {
-          return <button key={pokemon.id} onClick={pokemonType}>{pokemon.type}</button>
-        })}
+        {pokemons.reduce((acc, { type }) => {
+          if(acc.includes(type)) {
+            return acc;
+          }
+          acc.push(type);
+          return acc;
+        }, []).map(buttonName => <button onClick={pokemonType} key={buttonName}>{buttonName}</button>)}
       </div>
     )
   }

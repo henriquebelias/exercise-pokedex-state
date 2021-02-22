@@ -8,7 +8,7 @@ class Pokedex extends React.Component {
 
     this.state = {
       pokemonIndex: 0,
-      typeFilter: 'Fire',
+      typeFilter: 'All',
     }
 
     this.nextPokemon = this.nextPokemon.bind(this);
@@ -35,7 +35,9 @@ class Pokedex extends React.Component {
   filterPokemons(type) {
     const { pokemons } = this.props;
 
-    return pokemons.filter(pokemon => pokemon.type === type);
+    return pokemons.filter(pokemon => {
+      return type === 'All' ? true : pokemon.type === type
+    });
   }
 
   render() {
@@ -45,6 +47,7 @@ class Pokedex extends React.Component {
         <div className="pokedex">
           <Pokemon pokemon={this.filterPokemons(typeFilter)[pokemonIndex]} />
         </div>
+        <button onClick={this.pokemonType}>All</button>
         <button onClick={this.pokemonType}>Fire</button>
         <button onClick={this.pokemonType}>Psychic</button>
         <div>

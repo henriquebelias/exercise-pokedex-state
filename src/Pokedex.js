@@ -7,28 +7,48 @@ class Pokedex extends React.Component {
 
     this.state = {
       pokemonIndex: 0,
+      typeFilter: 'Fire',
     }
 
-    this.handleClick = this.handleClick.bind(this);
+    this.nextPokemon = this.nextPokemon.bind(this);
+    this.pokemonType = this.pokemonType.bind(this);
   }
 
-  handleClick() {
-    this.setState((state, props) => {
-      if(state.pokemonIndex === props.pokemons.length - 1) {
+  nextPokemon() {
+    this.setState(({ pokemonIndex }, _props) => {
+      if(pokemonIndex === this.filterPokemons(this.state.typeFilter).length - 1) {
         return {pokemonIndex: 0};
       } else {
-        return {pokemonIndex: state.pokemonIndex + 1};
+        return {pokemonIndex: pokemonIndex + 1};
       }
     })
   }
 
+  pokemonType({ target }) {
+    this.setState({
+      pokemonIndex: 0,
+      typeFilter: target.innerText,
+    })
+  }
+
+  filterPokemons(type) {
+    const { pokemons } = this.props;
+
+    return pokemons.filter(pokemon => pokemon.type === type);
+  }
+
   render() {
+    const { pokemonIndex, typeFilter } = this.state;
     return (
       <div>
         <div className="pokedex">
-          <Pokemon pokemon={this.props.pokemons[this.state.pokemonIndex]} />
+          <Pokemon pokemon={this.filterPokemons(typeFilter)[pokemonIndex]} />
         </div>
-        <button onClick={this.handleClick}>Próximo Pokemon</button>
+        <button onClick={this.pokemonType}>Fire</button>
+        <button onClick={this.pokemonType}>Psychic</button>
+        <div>
+          <button onClick={this.nextPokemon}>Próximo Pokemon</button>
+        </div>
       </div>
     );
   }
